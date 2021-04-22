@@ -2,3 +2,8 @@ frontend/env/*
 .DS_Store
 .vscode/
 image-server/.DS_Store
+link-store/env/
+link-store/.env
+link-store/__pycache__
+link-store/*.pyc
+
