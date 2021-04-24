@@ -13,7 +13,6 @@ func main() {
 	router.Use(cors.Default())
 	router.LoadHTMLGlob("templates/*")
 	router.StaticFS("/images", http.Dir("./images"))
-	router.GET("/", handlers.Index())
 	router.POST("/upload", handlers.Upload())
 	router.Run(":8000")
 }
