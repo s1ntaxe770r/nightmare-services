@@ -16,7 +16,7 @@ FROM alpine
 
 RUN apk add --no-cache ca-certificates
 
-COPY --from=builder /app/imag-server /image-server 
+COPY --from=builder /app/image-server /image-server 
 
 
 EXPOSE 8000
