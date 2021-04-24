@@ -30,5 +30,4 @@ def index():
 def upload():
     upload_route = image_server+"/upload"
     return render_template("upload.html",upload_route=upload_route)
-if __name__ == '__main__':
-    app.run('0.0.0.0',port=8080,debug=True)
+

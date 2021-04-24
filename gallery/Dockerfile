@@ -14,4 +14,4 @@ COPY . .
 
 # start server with 4 workers 
 
-CMD ["gunicorn","-w", "4", "main:app", "-b", "0.0.0.0:8080"]
+CMD ["gunicorn","-w", "4", "app:app", "-b", "0.0.0.0:8080"]
