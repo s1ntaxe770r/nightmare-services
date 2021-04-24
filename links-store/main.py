@@ -27,10 +27,6 @@ def insert_link():
     image_name = request_data['image_name']
     link = Link(image_name)
     return_val = add_link(link)
-    return jsonify({'sotored': return_val})
+    return jsonify({'stored': return_val})
 
 
-
-
-if __name__ == '__main__':
-    app.run('0.0.0.0',debug=True,port=9000)
