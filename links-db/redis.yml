@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: links-db
+  labels:
+    app: links-db
+spec:
+  selector:
+    matchLabels:
+      app: links-db
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: links-db
+    spec:
+      initContainers:
+      - name: data
+        image: busybox
+        command: [ "sh", "-c" ]
+        args:
+          - |
+            cp /config/appendonly.aof /tmp/appendonly.aof
+        volumeMounts:
+        - name: data
+          mountPath: /tmp/
+        - name: config
+          mountPath: /config/
+      containers:
+      - name: links-db
+        image: redis:6.0-alpine
+        ports:
+        - containerPort: 6379
+        volumeMounts:
+        - name: data
+          mountPath: /tmp/
+        command: [ "redis-server"]
+        args: ["--dir", "/tmp", "--appendonly", "yes"]
+      volumes:
+      - name: data
+        emptyDir: {}
+      - name: config
+        configMap:
+          name: links-db
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: links-db
+  labels:
+    app: links-db
+spec:
+  type: ClusterIP
+  selector:
+    app: links-db
+  ports:
+    - protocol: TCP
+      port: 6379
+      targetPort: 6379
