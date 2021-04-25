@@ -22,3 +22,5 @@ COPY --from=builder /app/image-server /image-server
 EXPOSE 8000
 
 ENTRYPOINT ["/app/image-server"]
+
+

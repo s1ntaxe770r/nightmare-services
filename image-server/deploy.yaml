@@ -16,7 +16,7 @@ spec:
       containers:
       - name: application
         image: e770r/gopher-gallery-image-server
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
           - containerPort: 8000
         env:
