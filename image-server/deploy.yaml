@@ -1,29 +1,23 @@
-apiVersion: v1
+---
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: image-server
-  labels:
-    app: image-server
 spec:
+  replicas: 2
   selector:
     matchLabels:
-      app: image-server
-  replicas: 2
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
+      name: image-server
   template:
     metadata:
       labels:
-        app: image-server
+        name: image-server
     spec:
       containers:
-        - name: image-server
-          image: e770r/gopher-gallery-image-server
-          imagePullPolicy: Always
-          ports:
+      - name: application
+        image: e770r/gopher-gallery-image-server
+        imagePullPolicy: IfNotPresent
+        ports:
           - containerPort: 8000
         env:
         - name: "LINKS_SERVER"
@@ -43,6 +37,7 @@ spec:
   ports:
     - protocol: TCP
       port: 8000
+      targetPort: 8000
 
 
             
