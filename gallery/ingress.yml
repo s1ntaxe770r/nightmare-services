@@ -1,0 +1,22 @@
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gopher-gallery-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  rules:
+  - host: kubernetes.docker.internal
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: gopher-gallery
+            port:
+              number: 8080
+          
+            
