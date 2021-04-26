@@ -12,6 +12,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
+
+EXPOSE 9000
 # start server with 4 workers 
 
 CMD ["gunicorn","-w", "4", "main:app", "-b", "0.0.0.0:9000"]
