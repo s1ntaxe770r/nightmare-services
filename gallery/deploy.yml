@@ -1,0 +1,64 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gopher-gallery
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: gopher-gallery
+  template:
+    metadata:
+      labels:
+        name: gopher-gallery
+    spec:
+      containers:
+      - name: application
+        image: e770r/gopher-gallery:latest
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 8080
+        env:
+        - name: "LINKS_SERVER"
+          value: "http://links-server:9000"
+          
+        - name: "IMAGE_SERVER"
+          value: "http://image-server:8000"
+
+--- 
+apiVersion: v1 
+kind: Service
+metadata:
+  name: gopher-gallery
+  labels:
+    app: gopher-gallery
+spec:
+  type: NodePort
+  selector:
+    app: gopher-gallery
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      name: http
+
+# ---
+# apiVersion: networking.k8s.io/v1beta1
+# kind: Ingress
+# metadata:
+#   annotations:
+#     kubernetes.io/ingress.class: "nginx"
+#     nginx.ingress.kubernetes.io/ssl-redirect: "false"
+#     nginx.ingress.kubernetes.io/rewrite-target: /$2
+#   name: gopher-gallery
+# spec:
+#   rules:
+#   - host: gopher-gallery.dev
+#     http:
+#       paths:
+#       - path: /
+#         backend:
+#           serviceName: gopher-gallery
+#           servicePort: 8080
+            
