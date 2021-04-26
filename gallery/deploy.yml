@@ -34,7 +34,7 @@ metadata:
   labels:
     app: gopher-gallery
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: gopher-gallery
   ports:
@@ -43,22 +43,4 @@ spec:
       targetPort: 8080
       name: http
 
-# ---
-# apiVersion: networking.k8s.io/v1beta1
-# kind: Ingress
-# metadata:
-#   annotations:
-#     kubernetes.io/ingress.class: "nginx"
-#     nginx.ingress.kubernetes.io/ssl-redirect: "false"
-#     nginx.ingress.kubernetes.io/rewrite-target: /$2
-#   name: gopher-gallery
-# spec:
-#   rules:
-#   - host: gopher-gallery.dev
-#     http:
-#       paths:
-#       - path: /
-#         backend:
-#           serviceName: gopher-gallery
-#           servicePort: 8080
-            
+           
