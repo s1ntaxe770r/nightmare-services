@@ -1,0 +1,157 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gopher-gallery
+  labels:
+    app: gopher-gallery
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app:  gopher-gallery
+  template:
+    metadata:
+      labels:
+        app: gopher-gallery
+    spec:
+      containers:
+      - name: gopher-gallery
+        image: e770r/gopher-gallery:v2
+        ports:
+        - containerPort: 8080
+        env:
+          - name: "LINKS_SERVER"
+            value: "http://links-server:9000"
+            
+          - name: "IMAGE_SERVER"
+            value: "http://image-server:8000"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gopher-gallery-service
+spec:
+  selector:
+    app: gopher-gallery
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: image-server
+  labels:
+    app: image-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: image-server
+  template:
+    metadata:
+      labels:
+        app: image-server
+    spec:
+      containers:
+      - name: image-server
+        image: e770r/gopher-gallery-image-server:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name: "LINKS_SERVER"
+          value: "http://links-server:9000"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: image-server-service
+spec:
+  selector:
+    app: image-server
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
+  
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  links-db
+  labels:
+    app:  links-db
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app:  links-db
+  template:
+    metadata:
+      labels:
+        app:  links-db
+    spec:
+      containers:
+      - name:  links-db
+        image: redis:alpine
+        ports:
+        - containerPort: 8002
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: links-db-service
+spec:
+  selector:
+    app: links-db
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 6379
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: links-store
+  labels:
+    app: links-store
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: links-store
+  template:
+    metadata:
+      labels:
+        app: links-store
+    spec:
+      containers:
+      - name: links-store
+        image: e770r/gopher-gallery-links-store:latest
+        ports:
+        - containerPort: 9000
+        env:
+        - name: "REDIS_HOST"
+          value: "links-db"
+                
+        - name: "REDIS_PORT"
+          value: "6379"
+      
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: links-store-service
+spec:
+  selector:
+    app: links-store
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9000
+ 
+
+
