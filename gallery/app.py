@@ -19,10 +19,7 @@ image_server = getenv("IMAGE_SERVER")
 
 @app.route("/")
 def index():
-    try:
-        links = requests.get(links_api+"/links/get").json()
-    except requests.RequestException as e:
-        print(e)
+    links = requests.get(links_api+"/links/get").json()
     image_urls = []
     for link in links["images"]:
         url = image_server+"/images/"+link      
