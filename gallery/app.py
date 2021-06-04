@@ -19,10 +19,13 @@ image_server = getenv("IMAGE_SERVER")
 
 @app.route("/")
 def index():
-    links = requests.get(links_api+"/links/get").json()
+    try:
+        links = requests.get(links_api+"/links/get").json()
+    except requests.RequestException as e:
+        print(e)
     image_urls = []
     for link in links["images"]:
-        url = image_server+"/images/"+link
+        url = image_server+"/images/"+link      
         image_urls.append(url)
     return render_template("index.html",image_urls=image_urls)
 
