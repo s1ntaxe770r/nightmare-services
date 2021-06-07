@@ -2,7 +2,7 @@ from os import link
 from flask import Flask, jsonify, Response
 from flask.globals import request
 from flask_cors import CORS
-from utils import get_links, add_link, Link
+from .utils import get_links, add_link, Link
 import json
 
 app = Flask(__name__)
