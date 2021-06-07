@@ -16,15 +16,15 @@ spec:
     spec:
       containers:
       - name: gopher-gallery
-        image: e770r/gopher-gallery:v2
+        image: e770r/gopher-gallery:v3
         ports:
         - containerPort: 8080
         env:
           - name: "LINKS_SERVER"
-            value: "http://links-server:9000"
+            value: "http://links-store-service:9000"
             
           - name: "IMAGE_SERVER"
-            value: "http://image-server:8000"
+            value: "http://image-server-service:8000"
 ---
 apiVersion: v1
 kind: Service
@@ -61,7 +61,7 @@ spec:
         - containerPort: 8000
         env:
         - name: "LINKS_SERVER"
-          value: "http://links-server:9000"
+          value: "http://links-store-service:9000"
 
 ---
 apiVersion: v1
@@ -130,12 +130,12 @@ spec:
     spec:
       containers:
       - name: links-store
-        image: e770r/gopher-gallery-links-store:latest
+        image: e770r/gopher-gallery-links-store:v1
         ports:
         - containerPort: 9000
         env:
         - name: "REDIS_HOST"
-          value: "links-db"
+          value: "links-db-service"
                 
         - name: "REDIS_PORT"
           value: "6379"

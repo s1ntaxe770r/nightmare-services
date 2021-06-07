@@ -1,5 +1,22 @@
-redis:
-  image: redis:alpine
-  container_name: redis
-  ports:
-    - "6379:6379"
+version: "3"
+
+services:
+  gallery:
+    image: e770r/gopher-gallery
+    container_name: gopher-gallery
+    ports: 
+      - 8080:8080
+    
+   
+
+
+
+
+
+
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
