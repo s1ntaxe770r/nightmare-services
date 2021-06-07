@@ -2,7 +2,7 @@ from os import link
 from flask import Flask, jsonify, Response
 from flask.globals import request
 from flask_cors import CORS
-from .utils.snip import get_links, add_link, Link
+from .utils import snip
 import json
 
 app = Flask(__name__)
@@ -11,7 +11,7 @@ CORS(app)
 @app.route("/links/get", methods=["GET"])
 def retrive_links():
     response = Response()
-    bytelist = get_links()
+    bytelist = snip.get_links()
     results = []
     for link in bytelist:
         string = link.decode()
@@ -25,8 +25,8 @@ def insert_link():
     response = Response()
     request_data = request.json
     image_name = request_data['image_name']
-    link = Link(image_name)
-    return_val = add_link(link)
+    link = snip.Link(image_name)
+    return_val = snip.add_link(link)
     return jsonify({'stored': return_val})
 
 
