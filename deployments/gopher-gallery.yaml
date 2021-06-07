@@ -130,7 +130,7 @@ spec:
     spec:
       containers:
       - name: links-store
-        image: e770r/gopher-gallery-links-store:v1
+        image: e770r/gopher-gallery-links-store:v5
         ports:
         - containerPort: 9000
         env:
