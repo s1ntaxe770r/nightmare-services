@@ -21,7 +21,7 @@ spec:
         - containerPort: 8080
         env:
           - name: "LINKS_SERVER"
-            value: "http://links-store-service:9000"
+            value: "http://links-store-service"
             
           - name: "IMAGE_SERVER"
             value: "http://image-server-service:8000"
@@ -61,7 +61,7 @@ spec:
         - containerPort: 8000
         env:
         - name: "LINKS_SERVER"
-          value: "http://links-store-service:9000"
+          value: "http://links-store-service"
 
 ---
 apiVersion: v1
@@ -97,7 +97,7 @@ spec:
       - name:  links-db
         image: redis:alpine
         ports:
-        - containerPort: 8002
+        - containerPort: 6379
 ---
 apiVersion: v1
 kind: Service
@@ -108,7 +108,7 @@ spec:
     app: links-db
   ports:
     - protocol: TCP
-      port: 80
+      port: 6379
       targetPort: 6379
 
 ---
