@@ -20,7 +20,7 @@ RUN apk add --no-cache ca-certificates
 
 COPY --from=builder /app/server /app/server 
 
-RUN mkdir -p /app/server/images
+RUN mkdir -p /app/images
 
 EXPOSE 8000
 
