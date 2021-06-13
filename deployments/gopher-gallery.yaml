@@ -24,7 +24,7 @@ spec:
             value: "http://links-store-service"
             
           - name: "IMAGE_SERVER"
-            value: "http://image-server-service:8000"
+            value: "http://image-server-service"
 ---
 apiVersion: v1
 kind: Service
